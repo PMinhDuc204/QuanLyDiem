@@ -17,7 +17,7 @@ class SVien extends Model
 
    public function lop(){
     return $this->belongsTo(LOP::class, 'MaLop', 'MaLop');
-}
+   }
    public function diemHP(){
     return $this->hasMany(DiemHP::class, 'MaSV', 'MaSV');
    }

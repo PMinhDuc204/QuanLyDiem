@@ -65,22 +65,33 @@ class SVienController extends Controller
     {
         //
         // dd($request->all());
-        // SVien::create($request->validated());
-        $sinhviens = new SVien();
-        $sinhviens->TenSV = $request->TenSV;
-        $sinhviens->Phai = $request->Phai;
-        $sinhviens->SDT = $request->SDT;
-        $sinhviens->MaLop = $request->MaLop;
+        // $sinhviens = SVien::create($request->validated());
+        // $sinhviens = new SVien();
+        // $sinhviens->TenSV = $request->TenSV;
+        // $sinhviens->Phai = $request->Phai;
+        // $sinhviens->SDT = $request->SDT;
+        // $sinhviens->MaLop = $request->MaLop;
 
-        $sinhviens->save(); // Lưu dữ liệu
-        return redirect()->route('sinhviens.index')->with('success','Them sinh vien thanh cong');
-        // return response()->json(
-        //     [
-        //         'success' => true,
-        //         'message' => 'Thêm sinh viên thành công',
-        //     ], 200
-        // );
+        // $sinhviens->save(); // Lưu dữ liệu
+        // return redirect()->route('sinhviens.index')->with('success','Them sinh vien thanh cong');
+        $sinhvien = SVien::create($request->validated());
 
+            if ($sinhvien) {
+                return response()->json(
+                    [
+                       'success' => true,
+                       'data' => $sinhvien,
+                       'message' => 'Thêm sinh viên thành công',
+                   ],201
+                );
+            }
+
+            return response()->json(
+                [
+                  'success' => false,
+                  'message' => 'Không thể thêm sinh viên',
+                ],500
+            );
     }
 
     /**
@@ -103,7 +114,12 @@ class SVienController extends Controller
         $sinhviens = SVien::where('MaSV', $MaSV)->first();
         // $sinhviens = SVien::find($MaSV);
         $lops = LOP::all(); // Lấy danh sách lớp để hiển thị trong form
-        return view('sinhvien.edit', compact('sinhviens', 'lops'));
+        // return view('sinhvien.edit', compact('sinhviens', 'lops'));
+        return response()->json([
+            'success' => true,
+            'data' => $sinhviens,
+            'message' => 'Lấy thông tin sinh viên thành công',
+        ], 200);
     }
     /**
      * Update the specified resource in storage.
